@@ -14,27 +14,23 @@ import org.joget.apps.form.model.FormBuilderPaletteElement;
 public class QRCodeScanner extends Element implements FormBuilderPaletteElement {
 
     private final static String MESSAGE_PATH = "message/form/QRCodeScanner";
-
+    
     @Override
     public String getName() {
         return "QR Code Scanner";
     }
-
     @Override
     public String getVersion() {
         return "1.0.0";
     }
-
     @Override
     public String getClassName() {
         return getClass().getName();
     }
-
     @Override
     public String getFormBuilderCategory() {
         return FormBuilderPalette.CATEGORY_CUSTOM;
     }
-
     @Override
     public String getFormBuilderIcon() {
         return "<i class=\"fas fa-info\"></i>";
@@ -55,7 +51,7 @@ public class QRCodeScanner extends Element implements FormBuilderPaletteElement 
     @Override
     public String getDescription() {
         // support i18n
-        return AppPluginUtil.getMessage("org.mokxa.QRCodeScanner.pluginDesc", getClassName(), MESSAGE_PATH);
+        return "QR Code Scanner";
     }
 
     @Override

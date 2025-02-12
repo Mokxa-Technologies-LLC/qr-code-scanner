@@ -1,8 +1,8 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1739362235413
-Build-Jdk-Spec: 17
+Bnd-LastModified: 1739364246173
+Build-Jdk-Spec: 18
 Bundle-Activator: org.mokxa.qrscanner.Activator
-Bundle-ClassPath: .,dependency/protobuf-java-3.21.9.jar,dependency/poi-4
+Bundle-ClassPath: .,dependency/protobuf-java-3.19.4.jar,dependency/poi-4
  .1.2.jar,dependency/commons-codec-1.13.jar,dependency/commons-collectio
  ns4-4.4.jar,dependency/commons-math3-3.6.1.jar,dependency/SparseBitSet-
  1.2.jar,dependency/javaee-api-7.0.jar,dependency/javax.mail-1.5.0.jar,d
@@ -13,14 +13,14 @@ Bundle-ManifestVersion: 2
 Bundle-Name: QRScannerPlugin
 Bundle-SymbolicName: org.mokxa.qrscanner.QRScannerPlugin
 Bundle-Version: 1.0.0
-Created-By: Apache Maven Bundle Plugin 5.1.9
+Created-By: Apache Maven Bundle Plugin 5.1.7
 DynamicImport-Package: *
 Embed-Dependency: *;scope=compile|runtime;inline=false
 Embed-Directory: dependency
 Embed-StripGroup: true
 Embed-Transitive: true
-Embedded-Artifacts: dependency/protobuf-java-3.21.9.jar;g="com.google.pr
- otobuf";a="protobuf-java";v="3.21.9",dependency/poi-4.1.2.jar;g="org.ap
+Embedded-Artifacts: dependency/protobuf-java-3.19.4.jar;g="com.google.pr
+ otobuf";a="protobuf-java";v="3.19.4",dependency/poi-4.1.2.jar;g="org.ap
  ache.poi";a="poi";v="4.1.2",dependency/commons-codec-1.13.jar;g="common
  s-codec";a="commons-codec";v="1.13",dependency/commons-collections4-4.4
  .jar;g="org.apache.commons";a="commons-collections4";v="4.4",dependency
