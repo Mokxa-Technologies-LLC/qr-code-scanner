@@ -17,6 +17,7 @@ import java.util.Collection;
 import java.util.ArrayList;
 import java.util.List;
 import org.joget.commons.util.LogUtil;
+import org.joget.commons.util.SecurityUtil;
 
 public class QRCodeScanner extends Element implements FormBuilderPaletteElement {
 
@@ -40,7 +41,7 @@ public class QRCodeScanner extends Element implements FormBuilderPaletteElement 
     }
     @Override
     public String getFormBuilderIcon() {
-        return "<i class=\"fas fa-info\"></i>";
+        return "<i class=\"fas fa-qrcode\"></i>";
     }
 
     @Override
@@ -74,42 +75,6 @@ public class QRCodeScanner extends Element implements FormBuilderPaletteElement 
         // set value
         String value = FormUtil.getElementPropertyValue(this, formData);
         dataModel.put("value", value);
-
-        
-        // String label = (String) getProperty("label");
-        // if (label == null || label.isEmpty()) {
-            //     label = getLabel(); // Default if missing
-            // }
-            // dataModel.put("label", label);
-
-            // Collection<Map> optionMap = new ArrayList<>();
-            
-            // FormRow fr = new FormRow();
-        // fr.setProperty("label", getLabel());
-        
-        // optionMap.add(fr);
-        
-        // // sort by numbering
-        // List<Map> sortedOptionMap = new ArrayList<>(optionMap);
-        
-        // Collections.sort(sortedOptionMap, (map1, map2) -> {
-            //     String numbering1 = (String) map1.get("numbering");
-            //     String numbering2 = (String) map2.get("numbering");
-            //     return numbering1.compareTo(numbering2); // For string-based sorting
-            // });
-            
-            // dataModel.put("options", sortedOptionMap);
-            
-        String label = getPropertyString("label"); // Fetch from properties.json
-        dataModel.put("label", getLabel());
-        
-        // Ensure element properties contain the label
-        if (getProperties() != null) {
-            getProperties().put("label", getLabel());
-        }
-        
-        LogUtil.info("QR Scanner", "dataModel" + dataModel);
-        LogUtil.info("QR Scanner", "getProperties()" + getProperties());
         
         String html = FormUtil.generateElementHtml(this, formData, template, dataModel);
         return html;
