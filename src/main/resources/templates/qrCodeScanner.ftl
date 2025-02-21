@@ -1,5 +1,5 @@
 <div class="form-cell qr_code_scanner" ${elementMetaData!}>
-    <label field-tooltip="${elementParamName!}" class="label" for="${elementParamName!}">${element.properties.label} <span class="form-cell-validator">${decoration}</span><#if error??> <span class="form-error-message">${error}</span></#if></label>
+    <label field-tooltip="${elementParamName!}" class="label" for="${elementParamName!}">${element.properties.label!} <span class="form-cell-validator">${decoration!}</span><#if error??> <span class="form-error-message">${error}</span></#if></label>
     <div class="form-cell-value qr_code_scanner_child">
         <span>${valueLabel!?html}</span>
         <input class="qr_scanner" id="${elementParamName!}" name="${elementParamName!}" type="hidden" value="${value!?html}"/>
