@@ -1,53 +1,81 @@
 <div class="form-cell qr_code_scanner" ${elementMetaData!}>
-    <label field-tooltip="${elementParamName!}" class="label" for="${elementParamName!}">${element.properties.label!} <span class="form-cell-validator">${decoration!}</span><#if error??> <span class="form-error-message">${error}</span></#if></label>
+    <#if  (element.properties.hideLabel! == 'true')>
+        <label field-tooltip="${elementParamName!}" class="label ui-screen-hidden" for="${elementParamName!}">${element.properties.label!} <span class="form-cell-validator">${decoration!}</span><#if error??> <span class="form-error-message">${error}</span></#if></label>
+    <#else>
+        <label field-tooltip="${elementParamName!}" class="label" for="${elementParamName!}">${element.properties.label!} <span class="form-cell-validator">${decoration!}</span><#if error??> <span class="form-error-message">${error}</span></#if></label>
+    </#if>
     <div class="form-cell-value qr_code_scanner_child">
         <span>${valueLabel!?html}</span>
         <input class="qr_scanner" id="${elementParamName!}" name="${elementParamName!}" type="hidden" value="${value!?html}"/>
-        <div id="reader"></div>
+        <#if  (element.properties.hideOnLoad! == 'true')>
+            <div id="reader" class="hidden"></div>
+        <#else>
+            <div id="reader"></div>
+        </#if>
         <div id="qr-error-message" class="qr-error-message hidden">Camera Access : Permission Denied</div>
-        <button id="rescan-button" name="rescan-button" class="hidden">Rescan QR Code</button>
+        <#if  (element.properties.hideOnLoad! == 'true')>
+            <button id="rescan-button" name="rescan-button">Scan QR Code</button>
+        <#else>
+            <button id="rescan-button" name="rescan-button" class="hidden">Scan QR Code</button>
+        </#if>
+        <div id="qr-scanned-value" class="hidden">
+            <br>
+            <div class="qr-scanned-value"></div>
+        </div>
     </div>
 
-<style>
-    .qr_code_scanner_child {
-        width: 100%;
-        display: flex;
-        flex-direction: column;  /* Stack elements vertically */
-        align-items: center;  /* Center elements horizontally */
-        justify-content: center;  /* Center elements vertically */
-    }
+    <style>
+        <#if  (element.properties.hideLabel! == 'true')>
+            .qr_code_scanner_child {
+                width: 100% !important;
+            }
+        </#if>
 
-    #reader {
-        width: 100%; /* Larger area for better scanning */
-        max-width: 650px; 
-        border: 2px solid #333;
-        border-radius: 5px;
-        margin-bottom: 20px;
-        border-color: #808080;
-    }
+        .qr_code_scanner_child {
+            width: 100%;
+            display: flex;
+            flex-direction: column;  /* Stack elements vertically */
+            align-items: center;  /* Center elements horizontally */
+            justify-content: center;  /* Center elements vertically */
+        }
 
-    #reader video {
-        width: 100% !important;   /* Makes the video fill the parent container's width */
-        height: auto !important;  /* Maintain aspect ratio */
-        display: block !important; /* Keeps it block-level */
-    }
+        #reader {
+            width: 100%; /* Larger area for better scanning */
+            max-width: 650px; 
+            border: 2px solid #333;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border-color: #808080;
+        }
 
-    .hidden {
-        display: none;   /* Class to hide elements */
-    }
+        <#if ("${element.properties.size!}" != '')>
+            #reader {
+                max-width: ${element.properties.size!}px !important;
+            }
+        </#if>
 
-    #rescan-button {
-        margin-bottom: 20px;
-        padding: 5px 20px;
-        width: 100%;
-        font-size: 16px;
-        cursor: pointer;
-        border-radius:5px;
-        border-color: #808080;
+        #reader video {
+            width: 100% !important;   /* Makes the video fill the parent container's width */
+            height: auto !important;  /* Maintain aspect ratio */
+            display: block !important; /* Keeps it block-level */
+        }
 
-        align-self: flex-end;
-    }
-</style>
+        .hidden {
+            display: none;   /* Class to hide elements */
+        }
+
+        #rescan-button {
+            margin-bottom: 20px;
+            padding: 5px 20px;
+            width: 100%;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius:5px;
+            border-color: #808080;
+
+            align-self: flex-end;
+        }
+    </style>
 
     <script src="https://unpkg.com/html5-qrcode"></script>
     <script>
@@ -61,11 +89,24 @@
             var hiddenInput;
             const parentDivs = document.querySelectorAll(".qr_code_scanner");
             const errorMessageDiv = document.getElementById('qr-error-message');
+            const qrScannedValue = document.getElementById('qr-scanned-value');
 
             // Variable to track if an error has already been logged
             let errorLogged = false;
 
-            
+            var hideScanner = false;
+            if ("${element.properties.hideOnLoad!}" == "true") {
+                hideScanner = true;
+            }
+
+            var showValue = false;
+            if ("${element.properties.showValue!}" == "true") {
+                showValue = true;
+            }
+
+            //if ("${element.properties.size!}" != "") {
+            //    readerDiv.style.setProperty("max-width", "${element.properties.size!}" + "px", "important");
+            //}
 
             // Function to start the scanner
             function startScanner() {
@@ -83,6 +124,9 @@
 
                             if (hiddenInput) {
                                 hiddenInput.value = decodedText;
+                                if (showValue) {
+                                    qrScannedValue.innerHTML = "Scanned QR Code value: " + decodedText + "<br>";
+                                }
                             }
                         });
 
@@ -98,6 +142,8 @@
 
                         // Show the rescan button
                         rescanButton.classList.remove("hidden");
+
+                        qrScannedValue.classList.remove("hidden");
 
                         html5QrCode.stop(); // Stop scanning after a successful scan
                     },
@@ -130,7 +176,9 @@
                 // Show the reader div
                 readerDiv.classList.remove("hidden");
 
-                // Restart the scanner
+                // Hide scanned value
+                qrScannedValue.classList.add("hidden");
+
                 startScanner();
             }
 
@@ -141,8 +189,10 @@
             if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
                 console.error("Your browser does not support camera access.");
             } else {
-                // Start the scanner when the page loads
-                startScanner();
+                if (!hideScanner) {
+                    // Start the scanner when the page loads
+                    startScanner();
+                }
             }
         });
     </script>

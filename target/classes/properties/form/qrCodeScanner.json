@@ -18,5 +18,52 @@
                 "value": "@@org.mokxa.QRCodeScanner.pluginLabel@@"
             }
         ]
+    },
+    {
+        "title" : "@@form.textfield.advancedOptions@@",
+        "properties" : [
+            {
+            "label" : "UI",
+            "type" : "header"
+            },
+            {
+                "name" : "hideLabel",
+                "label" : "Hide Element label",
+                "type" : "checkbox",
+                "value" : "False",
+                "options" : [{
+                    "value" : "true",
+                    "label" : ""
+                }]
+            },
+            {
+                "name" : "showValue",
+                "label" : "Show QR Code value after scan",
+                "type" : "checkbox",
+                "value" : "False",
+                "options" : [{
+                    "value" : "true",
+                    "label" : ""
+                }]
+            },
+            {
+                "name" : "hideOnLoad",
+                "label" : "Hide QR Code scanner on page load",
+                "type" : "checkbox",
+                "value" : "False",
+                "options" : [{
+                    "value" : "true",
+                    "label" : ""
+                }]
+            },
+            {
+                "name" : "size",
+                "label" : "QR Code Scanner size (px)",
+                "description" : "This properties feild will change the max width of QR Code Scanner (Default Max Width is 650px, Height is automatically caluculated.)",
+                "type" : "textfield",
+                "regex_validation" : "^[0-9]+$",
+                "validation_message" : "Please input only decimal values."
+            }
+        ]
     }
 ]
