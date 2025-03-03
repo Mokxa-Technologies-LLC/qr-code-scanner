@@ -77,40 +77,33 @@
         }
     </style>
 
-    <script src="https://unpkg.com/html5-qrcode"></script>
+    <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
     <script>
-        // Debugging: Log when the script is loaded
-        $( document ).ready(function() {
-            //console.log("QR Code Scanner script loaded.");
 
-            const html5QrCode = new Html5Qrcode("reader");
-            const readerDiv = document.getElementById('reader');
-            const rescanButton = document.getElementById('rescan-button');
-            var hiddenInput;
-            const parentDivs = document.querySelectorAll(".qr_code_scanner");
-            const errorMessageDiv = document.getElementById('qr-error-message');
-            const qrScannedValue = document.getElementById('qr-scanned-value');
+
+        function define() {
+            var defineQRCode = false;
 
             // Variable to track if an error has already been logged
-            let errorLogged = false;
+            var errorLogged = false;
 
-            var hideScanner = false;
-            if ("${element.properties.hideOnLoad!}" == "true") {
-                hideScanner = true;
-            }
-
-            var showValue = false;
-            if ("${element.properties.showValue!}" == "true") {
-                showValue = true;
-            }
-
-            //if ("${element.properties.size!}" != "") {
-            //    readerDiv.style.setProperty("max-width", "${element.properties.size!}" + "px", "important");
-            //}
+            var html5QrCode = undefined;
 
             // Function to start the scanner
             function startScanner() {
-                //console.log("Starting QR code scanner...");
+                var hiddenInput;
+                var showValue = false;
+                var rescanButton = document.getElementById('rescan-button');
+                var parentDivs = document.querySelectorAll(".qr_code_scanner");
+                var errorMessageDiv = document.getElementById('qr-error-message');
+                var qrScannedValue = document.getElementById('qr-scanned-value');
+                var readerDiv = document.getElementById('reader');
+                if ("${element.properties.showValue!}" == "true") {
+                    showValue = true;
+                }
+
+                html5QrCode = new Html5Qrcode("reader");
+                console.log("Starting QR code scanner...");
                 html5QrCode.start(
                     { facingMode: "environment" }, // Use the front-facing camera (default for laptops)
                     {
@@ -133,7 +126,7 @@
                         // Trigger the change event
                         const event = new Event('change', { bubbles: true });
                         hiddenInput.dispatchEvent(event);
-                        //console.log("Change event triggered.");
+                        console.log("Change event triggered.");
 
                         errorLogged = false; // Reset error flag
 
@@ -162,13 +155,32 @@
                     console.error("Unable to start the scanner:", err);
                 });
             }
+            console.log("QR Code----------- Scanner script loaded.");
 
-            // Function to restart the scanner
-            function restartScanner(event) {
+            var hideScanner = false;
+            if ("${element.properties.hideOnLoad!}" == "true") {
+                hideScanner = true;
+            }
+
+            // Check if the browser supports the required APIs
+            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                console.error("Your browser does not support camera access.");
+            } else {
+                if (!hideScanner) {
+                    // Start the scanner when the page loads
+                    startScanner();
+                }
+            }
+
+            $(document).on('click', '#rescan-button', function() {
+                //console.log('button clicked');
+
+                const rescanButton = document.getElementById('rescan-button');
+                const readerDiv = document.getElementById('reader');
+                const qrScannedValue = document.getElementById('qr-scanned-value');
+
                 event.preventDefault();
                 event.stopPropagation();
-
-                //console.log("Restarting QR code scanner...");
 
                 // Hide the rescan button
                 rescanButton.classList.add("hidden");
@@ -180,20 +192,37 @@
                 qrScannedValue.classList.add("hidden");
 
                 startScanner();
-            }
+            });
 
-            // Add click event listener to the rescan button
-            rescanButton.addEventListener("click", restartScanner);
+            defineQRCode = true;
+        }
 
-            // Check if the browser supports the required APIs
-            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-                console.error("Your browser does not support camera access.");
-            } else {
-                if (!hideScanner) {
-                    // Start the scanner when the page loads
-                    startScanner();
-                }
-            }
+        $( document ).ready(function() {
+            setTimeout(function() {
+                define();
+            }, 500); 
         });
+
+        //$(document).on('click', '#rescan-button', function() {
+        //    //console.log('button clicked');
+//
+        //    const rescanButton = document.getElementById('rescan-button');
+        //    const readerDiv = document.getElementById('reader');
+        //    const qrScannedValue = document.getElementById('qr-scanned-value');
+//
+        //    event.preventDefault();
+        //    event.stopPropagation();
+//
+        //    // Hide the rescan button
+        //    rescanButton.classList.add("hidden");
+//
+        //    // Show the reader div
+        //    readerDiv.classList.remove("hidden");
+//
+        //    // Hide scanned value
+        //    qrScannedValue.classList.add("hidden");
+//
+        //    startScanner();
+        //});
     </script>
 </div>
