@@ -59,7 +59,7 @@
             {
                 "name" : "size",
                 "label" : "QR Code Scanner size (px)",
-                "description" : "This properties feild will change the max width of QR Code Scanner (Default Max Width is 650px, Height is automatically caluculated.)",
+                "description" : "This property field will change the max width of the QR Code Scanner (Default Max Width is 650px, Height is automatically calculated.)",
                 "type" : "textfield",
                 "regex_validation" : "^[0-9]+$",
                 "validation_message" : "Please input only decimal values."

@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.mokxa.qrscanner</groupId>
   <artifactId>QRScannerPlugin</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.1</version>
   <packaging>bundle</packaging>
   <name>QRScannerPlugin</name>
   <url>http://www.joget.org</url>
